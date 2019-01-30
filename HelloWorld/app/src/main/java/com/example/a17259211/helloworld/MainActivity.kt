@@ -49,15 +49,15 @@ class MainActivity : AppCompatActivity() {
                 edEmail.error = ERRO_EMAIL
             }
 
-            if(validarMinimoCaracteres(senha, 3)){
-                edSenha.error = "Senha deve conter mais de 3 caracteres"
+            if(!validarMinimoCaracteres(senha, 3)){
+                edSenha.error = "Senha deve conter no minimo 3 caracteres"
             }
 
-            if(textoContemNumero(senha)){
+            if(!textoContemNumero(senha)){
                 edSenha.error = "Senha deve conter pelo menos um numero"
             }
 
-            if(!seqNumero(senha)){
+            if(seqNumero(senha)){
                 edSenha.error = "Senha não pode ser uma sequência numerica"
             }
 
