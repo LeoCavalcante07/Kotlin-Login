@@ -1,4 +1,4 @@
-package com.example.a17259211.helloworld
+package com.example.a17259211.helloworld.ui
 
 fun validarMinimoCaracteres(texto:String, minimo:Int) : Boolean{
 

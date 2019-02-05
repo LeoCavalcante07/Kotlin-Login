@@ -9,6 +9,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.widget.Button
 import android.widget.EditText
+import com.example.a17259211.helloworld.ui.MainActivity
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.*
 import org.junit.runner.RunWith
@@ -55,7 +56,7 @@ class MainActivityTest {
         val email = onView(withId(R.id.edEmail))
         val senha = onView(withId(R.id.edSenha))
 
-        nome.perform(typeText("a"))
+        nome.perform(typeText("aa"))
         email.perform(typeText("aaaa@a"))
         senha.perform(typeText("aaa12aa"))
 
@@ -71,6 +72,57 @@ class MainActivityTest {
 
         nome.check(matches(hasErrorText(textErro)))
        // email.check(matches(hasErrorText(textErro)))
+
+    }
+
+
+
+    @Test
+    fun c_testeSenhaMinimoCaracteres(){
+
+
+        val senha = onView(withId(R.id.edSenha))
+
+
+        senha.perform(typeText("a1"))
+
+
+        val btnEntrar = onView((withId(R.id.btnEntrar)))
+
+        btnEntrar.perform(click())
+
+        val textErro = "Senha deve conter no minimo 3 caracteres"
+
+        //nome.check(ViewAssertions.matches(ViewMatchers.hasErrorText(textErro)))
+
+
+        senha.check(matches(hasErrorText(textErro)))
+        // email.check(matches(hasErrorText(textErro)))
+
+    }
+
+
+    @Test
+    fun c_testeSenhaSeqNumerica(){
+
+
+        val senha = onView(withId(R.id.edSenha))
+
+
+        senha.perform(typeText("123"))
+
+
+        val btnEntrar = onView((withId(R.id.btnEntrar)))
+
+        btnEntrar.perform(click())
+
+        val textErro = "Senha não pode ser uma sequência numerica"
+
+        //nome.check(ViewAssertions.matches(ViewMatchers.hasErrorText(textErro)))
+
+
+        senha.check(matches(hasErrorText(textErro)))
+        // email.check(matches(hasErrorText(textErro)))
 
     }
 

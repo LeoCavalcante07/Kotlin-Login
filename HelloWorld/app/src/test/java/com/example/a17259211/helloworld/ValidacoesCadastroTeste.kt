@@ -1,5 +1,9 @@
 package com.example.a17259211.helloworld
 
+import com.example.a17259211.helloworld.ui.seqNumero
+import com.example.a17259211.helloworld.ui.textoContemNumero
+import com.example.a17259211.helloworld.ui.validarMinimoCaracteres
+import com.example.a17259211.helloworld.ui.validarTextoComArroba
 import junit.framework.Assert
 import org.junit.Test
 

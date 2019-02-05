@@ -1,7 +1,12 @@
-package com.example.a17259211.helloworld
+package com.example.a17259211.helloworld.ui
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import com.example.a17259211.helloworld.R
+import com.example.a17259211.helloworld.viewmodel.CadastroViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -9,6 +14,9 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    val viewModel by lazy {
+        ViewModelProviders.of(this).get(CadastroViewModel::class.java)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,13 +29,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-//        btnGo.setOnClickListener{
-//
-//            val nome = edNome.text.toString()
-//
-//            txtResult.text = "Olá $nome"
 
-            //Toast.makeText(this, "Ola $nome", Toast.LENGTH_SHORT).show()
 
 
         btnEntrar.setOnClickListener(){
@@ -62,6 +64,7 @@ class MainActivity : AppCompatActivity() {
             }
 
 
+            viewModel.cadastrarUsuario()
 
 
 
@@ -129,6 +132,27 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        viewModel.loading.observe(this, Observer {
+            //sempre que acontecer algo na variavel, é notificado
+            updateLoading(it)//it é o estado da variavel
+        })
+
+    }
+
+    fun updateLoading(loading:Boolean?){
+
+
+        loading?.let {
+
+            //caso entre nesse bloco significa que a variavel loading não é nula
+            if(loading){
+                btnEntrar.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+            }else{
+                progressBar.visibility = View.GONE
+                btnEntrar.visibility = View.VISIBLE
+            }
+        }
     }
 
 
