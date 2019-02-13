@@ -7,10 +7,14 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.a17259211.helloworld.R
+import com.example.a17259211.helloworld.model.ApiResult
 import com.example.a17259211.helloworld.model.Usuario
 import com.example.a17259211.helloworld.viewmodel.CadastroViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.okButton
+import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,13 +33,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
 
-
-
-
-
-
-
-
         btnEntrar.setOnClickListener(){
 
             val nome = edNome.text.toString()
@@ -48,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         if(validarFormulario(nome, email, senha)){
             viewModel.cadastrarUsuario(
-                    Usuario(nome, email, senha)
+                    Usuario(null, nome, email, senha)
             )
         }
 
@@ -68,6 +65,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.error.observe(this, Observer {
 
             updateError(it)
+        })
+
+        viewModel.sucesso.observe(this, Observer {
+            updateSucesso(it)
         })
 
     }
@@ -145,10 +146,39 @@ class MainActivity : AppCompatActivity() {
                 progressBar.visibility = View.GONE
                 btnEntrar.visibility = View.VISIBLE
 
+            }else{
+                errorSnack?.dismiss() // o ponto de interrogação é para ignorar caso seja nula a variavel, não dando erro de null pointer exception
             }
 
         }
     }
+
+
+
+    fun updateSucesso(result: ApiResult?){
+
+        result?.let{
+            val titulo = if(it.sucesso) "Sucesso" else "Erro"
+
+            //colocando uma função dentro de uma variavel
+            val funcaoSucesso: (Boolean) -> Unit = {//unit é tipo o void
+
+                if(it){
+                    startActivity<LoginActivity>()
+                    finish()
+                }
+
+            }
+
+                        //caso seja nulo, coloque uma string vazia
+            alert(it.mensagem?:"", titulo){
+                okButton {
+                    funcaoSucesso(result.sucesso);
+                }
+            }.show()
+        }
+    }
+
 
     fun getUsuario():Usuario{
 
@@ -156,7 +186,7 @@ class MainActivity : AppCompatActivity() {
         val email = edEmail.text.toString()
         var senha = edSenha.text.toString()
 
-        return Usuario(nome, email, senha)
+        return Usuario(null, nome, email, senha)
     }
 
 
